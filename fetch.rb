@@ -7,7 +7,7 @@ require 'json'
 
 PER_PAGE = 500
 FLICKR_API_KEY = ENV['FLICKR_API_KEY']
-FLICKR_USER = "122072174@N05"
+FLICKR_USER = ENV['FLICKR_USER'] || "122072174@N05"
 
 BASE_URI = "https://api.flickr.com/services/rest/"
 
