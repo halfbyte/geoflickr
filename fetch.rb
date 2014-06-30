@@ -18,7 +18,7 @@ CALL_BASE_CONFIG = {
   per_page: PER_PAGE,
   format: 'json',
   nojsoncallback: 1,
-  extras: 'geo,url_m'
+  extras: 'geo,url_m,tags'
 }
 
 page = 1
@@ -44,8 +44,8 @@ while(page < pages) do
           properties: {
             caption: photo['title'],
             imgsrc: photo['url_m'], 
-            entryurl: "https://www.flickr.com/photos/{FLICKR_USER}/{photo['id']}",
-            tags: photo['tags'],
+            entryurl: "https://www.flickr.com/photos/#{FLICKR_USER}/#{photo['id']}",
+            tags: photo['tags'].split(" "),
             source: "Flickr"
           },
           geometry: {
