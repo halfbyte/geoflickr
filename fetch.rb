@@ -12,10 +12,26 @@ FLICKR_USER = ENV['FLICKR_USER'] || "122072174@N05"
 
 BASE_URI = "https://api.flickr.com/services/rest/"
 
+
+# This maps certain flickr tags to mapbox maki icons: https://www.mapbox.com/maki/
 SYMBOLS = {
   'car' => 'car',
   'trashcan' => 'waste-basket',
-  'signage' => 'roadblock'
+  'trash' => 'waste-basket',
+  'signage' => 'roadblock',
+  'plants' => 'park2',
+  'truck' => 'car',
+  'animal' => 'dog-park',
+  'bike' => 'bicycle',
+  'motorcycle' => 'scooter',
+  'policecar' => 'police',
+  'hoarding' => 'prison',
+  'shoppingcart' => 'grocery',
+  'people' => 'school',
+  'obstacle' => 'roadblock',
+  'hydrant' => 'water',
+  'lamppost' => 'lighthouse',
+  'construction' => 'oil-well'
   
 }
 
@@ -38,8 +54,10 @@ connection = Faraday::Connection.new(url: "https://api.flickr.com/services/rest/
 points = []
 
 def tags_to_symbol(tags)
-  tag = tags.first
-  return SYMBOLS[tag] || 'circle'  
+  tags.each do |tag|
+    return SYMBOLS[tag] if SYMBOLS[tag]
+  end
+  return 'circle'  
 end
 
 TIME = Time.now
