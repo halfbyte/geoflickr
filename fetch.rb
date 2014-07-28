@@ -47,23 +47,24 @@ TIME = Time.now
 def age_to_color(age)
   return "#ccc" if age.nil?
   blue = 200 + (55 - ([age,1.0].min * 55))
-  "#c8c8#{blue.to_s(16)}"
+  grey = 200 - (100 - ([age,1.0].min * 100))
+  "##{grey.to_i.to_s(16)}#{grey.to_i.to_s(16)}#{blue.to_i.to_s(16)}"
 end
 
 while(page < pages) do
   result = connection.get("", CALL_BASE_CONFIG.merge(page: page))
   if result.status == 200
     data = JSON.parse(result.body)
-    puts data.inspect
+    # puts data.inspect
     pages = data['photos']['pages']
     data['photos']['photo'].each do |photo|
       lat = photo['latitude']
       lon = photo['longitude']
+      date_taken = nil
       age = nil
-      
       begin
-        date_taken = Time.parse(photo['date_taken'])      
-        age = Time.now - date_taken / (3600.0 * 24.0 * 365.0)
+        date_taken = Time.parse(photo['datetaken'])      
+        age = (Time.now - date_taken) / (3600.0 * 24.0 * 365.0)
       rescue TypeError
         # puts "ERROR: #{photo['date_taken']}"
       end
@@ -77,7 +78,7 @@ while(page < pages) do
           type: 'Feature',
           properties: {
             title: photo['title'],
-            description: "<p><a target='_blank' href='#{entryurl}'><img src='#{photo['url_m']}' style='width: 100%;'/></a></p><p>#{photo['title']}</p><p class='source'>Quelle: Flickr</p>",
+            description: "<div>#{date_taken ? date_taken.strftime("%d.%m.%Y %H:%M") : ''}</div><p><a target='_blank' href='#{entryurl}'><img src='#{photo['url_m']}' style='width: 100%;'/></a></p><p>#{photo['title']}</p><p class='source'>Quelle: Flickr</p>",
             "marker-size" => "medium",
             "marker-symbol" => tags_to_symbol(photo['tags'].split(" ")),
             "marker-color" => age_to_color(age)
@@ -100,7 +101,7 @@ geojson = {
   features: points
 }
 
-puts geojson.to_json
+# puts geojson.to_json
 
 File.open("#{FLICKR_USER}.geojson", 'wb') do |f|
   f.write(geojson.to_json)
