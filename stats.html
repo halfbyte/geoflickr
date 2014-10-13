@@ -1,0 +1,95 @@
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.css' rel='stylesheet' />
+    <style>
+    body {
+      margin: 0; padding:10px; font-family: sans-serif;
+    }
+    
+    .stats-summary > div {
+      position: relative;
+      height: 30px;
+      margin: 10px 0 0;
+    }
+    
+    .tag-stats {
+      list-style-type: none;
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .tag-stats-entry {
+      margin: 10px 0;
+      background-color: #f8f8f8;
+      width: 100%;
+      font-family: sans-serif;
+      box-sizing: border-box;
+      height: 30px;
+      display: block;
+      position: relative;
+    }
+    .tag-stats-bar, .stats-bar {
+      position: absolute;
+      height: 30px;
+      box-sizing: border-box;
+      
+    }
+    .stats-bar {
+      z-index: -1;
+      background-color: hsl(0, 70%, 70%);
+      
+    }
+    .tag-name {
+      font-size: 2em;
+      line-height: 0.5em;
+      display: inline-block;
+      font-weight: bold;
+      position: relative;
+    }
+    .tag-count {
+      display: inline-block;
+      position: absolute;
+      right: 0;
+      font-size: 1.5em;
+    }
+    </style>    
+  </head>
+  <!-- 
+    To run this example, as it needs ajax to load and this does not normally work from files,
+    it needs to run in a webserver.
+    
+  -->
+  <body>
+    <h1>things on bikelanes Statistiken</h1>
+    <div class>
+    <h2>Zusammenfassung</h2>
+    <div class="stats-summary">
+      <div>Gesamteinträge: <span id="all-entries"></span></div>
+      <div><div class="stats-bar" id="geocoded-entries-bar"></div>Davon mit Geodaten: <span id="geocoded-entries"></span> (<span id="geocoded-entries-percent"></span>%)</div>
+      <div><div class="stats-bar" id="tagged-entries-bar"></div>Davon mit Tags: <span id="tagged-entries"></span> (<span id="tagged-entries-percent"></span>%)</span></div>
+    </div>
+    <h2>Häufigste Tags</h2>
+    <p>Da Einträge mehrfach getagt sein können, müssen die Summen nicht mit der Gesamtsumme der getagten Einträge übereinstimmen.</p>
+    <ul class="tag-stats" data-stats-url="122072174@N05.stats.json"></ul>
+    
+    <h2>Erklärung</h2>
+    <p>
+      Die Einträge auf <a href="http://thingsonbikelanes.tumblr.com">Thingsonbikelanes</a>
+      werde über Flickr durchsuchbar gemacht und mit einer händischen Klassifizierung versehen. Diese richtet sich nach den häufigsten Hindernissen. Diese Seite bietet einen Überblick über die erfassten Daten.
+    </p>
+  </body>
+  <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>  
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+  <script type="text/javascript" src="stats.js"></script>
+  
+  <script type="text/x-template" id="stat-entry">
+    <li class="tag-stats-entry">
+      <div class="tag-stats-bar" id="tag-<%= tag %>" style="background-color: hsl(<%= hue %>, 70%, 70%);" class="tag-stats-bar"></div>
+      <div class="tag-name"><%= tag %></div>
+      <div class="tag-count"><%= count %></div>
+    </li>
+  </script>
+  
+</html>

@@ -53,6 +53,9 @@ connection = Faraday::Connection.new(url: "https://api.flickr.com/services/rest/
 
 points = []
 tag_stats = {}
+all = 0
+geocoded = 0
+tagged = 0
 
 
 def tags_to_symbol(tags)
@@ -65,11 +68,16 @@ end
 TIME = Time.now
 
 def merge_tags(tag_stats, tagstring)
+  tags_merged = false
   tags = tagstring.split(" ")
   tags.each do |tag|
     tag = tag.downcase.strip
-    tag_stats[tag] = (tag_stats[tag] || 0) + 1
+    if SYMBOLS[tag]
+      tags_merged = true
+      tag_stats[tag] = (tag_stats[tag] || 0) + 1
+    end
   end
+  return tags_merged
 end
 
 def age_to_color(age)
@@ -79,18 +87,21 @@ def age_to_color(age)
   "##{grey.to_i.to_s(16)}#{grey.to_i.to_s(16)}#{blue.to_i.to_s(16)}"
 end
 
-while(page < pages) do
+while(page <= pages) do
   result = connection.get("", CALL_BASE_CONFIG.merge(page: page))
   if result.status == 200
     puts "new page #{page}"
+    page += 1
     data = JSON.parse(result.body)
     # puts data.inspect
     pages = data['photos']['pages']
+    puts pages
     data['photos']['photo'].each do |photo|
       lat = photo['latitude']
       lon = photo['longitude']
       date_taken = nil
       age = nil
+      all += 1
       begin
         date_taken = Time.parse(photo['datetaken'])      
         age = (Time.now - date_taken) / (3600.0 * 24.0 * 365.0)
@@ -98,11 +109,13 @@ while(page < pages) do
         # puts "ERROR: #{photo['date_taken']}"
       end
       
-      merge_tags(tag_stats, photo['tags'])
+      if merge_tags(tag_stats, photo['tags'])
+        tagged += 1
+      end
       
       
       if (lat && lon && lat != 0 && lon != 0)
-        
+        geocoded += 1
         entryurl = "https://www.flickr.com/photos/#{FLICKR_USER}/#{photo['id']}"
         
         points << {
@@ -136,8 +149,16 @@ geojson = {
   features: points
 }
 
+
+converted_tag_stats = tag_stats.map { |k, v|
+  tag_stats[k] = {tag: k, count: v, icon: SYMBOLS[k]}
+}.sort_by {|s| s[:count] }.reverse
+
 stats = {
-  tags: tag_stats
+  tags: converted_tag_stats,
+  all: all,
+  geocoded: geocoded,
+  tagged: tagged
 }
 
 # puts geojson.to_json
