@@ -52,6 +52,8 @@ pages = 200
 connection = Faraday::Connection.new(url: "https://api.flickr.com/services/rest/")
 
 points = []
+tag_stats = {}
+
 
 def tags_to_symbol(tags)
   tags.each do |tag|
@@ -61,6 +63,14 @@ def tags_to_symbol(tags)
 end
 
 TIME = Time.now
+
+def merge_tags(tag_stats, tagstring)
+  tags = tagstring.split(" ")
+  tags.each do |tag|
+    tag = tag.downcase.strip
+    tag_stats[tag] = (tag_stats[tag] || 0) + 1
+  end
+end
 
 def age_to_color(age)
   return "#ccc" if age.nil?
@@ -72,6 +82,7 @@ end
 while(page < pages) do
   result = connection.get("", CALL_BASE_CONFIG.merge(page: page))
   if result.status == 200
+    puts "new page #{page}"
     data = JSON.parse(result.body)
     # puts data.inspect
     pages = data['photos']['pages']
@@ -86,6 +97,8 @@ while(page < pages) do
       rescue TypeError
         # puts "ERROR: #{photo['date_taken']}"
       end
+      
+      merge_tags(tag_stats, photo['tags'])
       
       
       if (lat && lon && lat != 0 && lon != 0)
@@ -114,13 +127,25 @@ while(page < pages) do
   end
 end
 
+
+
+
+
 geojson = {
   type: 'FeatureCollection',
   features: points
+}
+
+stats = {
+  tags: tag_stats
 }
 
 # puts geojson.to_json
 
 File.open("#{FLICKR_USER}.geojson", 'wb') do |f|
   f.write(geojson.to_json)
+end
+
+File.open("#{FLICKR_USER}.stats.json", 'wb') do |f|
+  f.write(stats.to_json)
 end
