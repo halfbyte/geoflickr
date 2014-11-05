@@ -1,0 +1,38 @@
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <style>
+      body {
+        margin: 0; padding:10px; font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <!--
+    To run this example, as it needs ajax to load and this does not normally work from files,
+    it needs to run in a webserver.
+
+  -->
+  <body>
+    <h1>things on bikelanes non coded images</h1>
+    <p id="uncoded-count"></p>
+    <ul data-uncoded-url="122072174@N05.uncoded.json">
+
+    </ul>
+
+
+
+  <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+  <script type="text/javascript" src="uncoded.js"></script>
+
+  <script type="text/x-template" id="uncoded-entry">
+    <li>
+      <h2><a target="_blank" href="<%= entry_url %>"><%= title %></a></h2>
+      <div><img src="<%= photo_url %>" /></div>
+    </li>
+  </script>
+
+  </body>
+
+</html>

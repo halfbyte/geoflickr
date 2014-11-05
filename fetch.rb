@@ -32,7 +32,7 @@ SYMBOLS = {
   'hydrant' => 'water',
   'lamppost' => 'lighthouse',
   'construction' => 'oil-well'
-  
+
 }
 
 
@@ -57,12 +57,14 @@ all = 0
 geocoded = 0
 tagged = 0
 
+non_geocoded_entries = []
+
 
 def tags_to_symbol(tags)
   tags.each do |tag|
     return SYMBOLS[tag] if SYMBOLS[tag]
   end
-  return 'circle'  
+  return 'circle'
 end
 
 TIME = Time.now
@@ -103,21 +105,22 @@ while(page <= pages) do
       age = nil
       all += 1
       begin
-        date_taken = Time.parse(photo['datetaken'])      
+        date_taken = Time.parse(photo['datetaken'])
         age = (Time.now - date_taken) / (3600.0 * 24.0 * 365.0)
       rescue TypeError
         # puts "ERROR: #{photo['date_taken']}"
       end
-      
+
       if merge_tags(tag_stats, photo['tags'])
         tagged += 1
       end
-      
-      
+
+      entryurl = "https://www.flickr.com/photos/#{FLICKR_USER}/#{photo['id']}"
+
       if (lat && lon && lat != 0 && lon != 0)
         geocoded += 1
-        entryurl = "https://www.flickr.com/photos/#{FLICKR_USER}/#{photo['id']}"
-        
+
+
         points << {
           type: 'Feature',
           properties: {
@@ -131,7 +134,14 @@ while(page <= pages) do
             type: 'Point',
             coordinates: [lon, lat]
           }
-        }   
+        }
+      else
+        non_geocoded_entries << {
+          entry_url: entryurl,
+          photo_url: photo['url_m'],
+          tags: photo['tags'],
+          title: photo['title']
+        }
       end
     end
   else
@@ -169,4 +179,8 @@ end
 
 File.open("#{FLICKR_USER}.stats.json", 'wb') do |f|
   f.write(stats.to_json)
+end
+
+File.open("#{FLICKR_USER}.uncoded.json", 'wb') do |f|
+  f.write(non_geocoded_entries.to_json)
 end
