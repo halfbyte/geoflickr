@@ -140,7 +140,8 @@ while(page <= pages) do
           entry_url: entryurl,
           photo_url: photo['url_m'],
           tags: photo['tags'],
-          title: photo['title']
+          title: photo['title'],
+          id: photo['id']
         }
       end
     end
