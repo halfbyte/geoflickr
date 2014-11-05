@@ -43,7 +43,7 @@ CALL_BASE_CONFIG = {
   per_page: PER_PAGE,
   format: 'json',
   nojsoncallback: 1,
-  extras: 'geo,url_m,tags,date_taken'
+  extras: 'geo,url_m,url_o,tags,date_taken'
 }
 
 page = 1
@@ -139,6 +139,7 @@ while(page <= pages) do
         non_geocoded_entries << {
           entry_url: entryurl,
           photo_url: photo['url_m'],
+          original_url: photo['url_o'],
           tags: photo['tags'],
           title: photo['title'],
           id: photo['id']
