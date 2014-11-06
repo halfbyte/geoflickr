@@ -6,6 +6,12 @@
       body {
         margin: 0; padding:10px; font-family: sans-serif;
       }
+      .entries {
+        list-style: none; margin: 0; padding: 0;
+      }
+      .entries li {
+        padding: 10px; border-bottom: 1px solid #ccc;
+      }
     </style>
   </head>
   <!--
@@ -15,8 +21,29 @@
   -->
   <body>
     <h1>things on bikelanes non coded images</h1>
-    <p id="uncoded-count"></p>
-    <ul data-uncoded-url="122072174@N05.uncoded.json">
+    <form action="uncoded.html" method="get" id="filterform">
+      Filter:
+      <label>
+        <input id="filter_all" type="radio" class="filterbutton" name="filter" value="all">
+        Alle
+      </label>
+      <label>
+        <input id="filter_untagged" type="radio" class="filterbutton" name="filter" value="untagged">
+        Noch nicht bearbeitet
+      </label>
+      <label>
+        <input id="filter_nogps" type="radio" class="filterbutton" name="filter" value="nogps">
+        Hoffnungslos
+      </label>
+    </form>
+    <p>
+      <span id="uncoded-count"></span>
+      ohne Gecode, davon
+      <span id="selected-count"></span>
+      ausgewählt.
+    </p>
+
+    <ul data-uncoded-url="122072174@N05.uncoded.json" class="entries">
 
     </ul>
 
@@ -28,9 +55,17 @@
 
   <script type="text/x-template" id="uncoded-entry">
     <li>
-      <h2><a target="_blank" href="<%= entry_url %>"><%= title %></a></h2>
-      <p><a target="_blank" href="https://www.flickr.com/photos/organize/?batch_geotag=1&ids=<%= id %>&from_geo_ids=<%= id %>">GEOCODER</a></p>
+      <h2>
+        <a target="_blank" href="<%= entry_url %>"><%= title %></a>
+        <a target="_blank" href="https://www.flickr.com/photos/organize/?batch_geotag=1&ids=<%= id %>&from_geo_ids=<%= id %>">[Geocode in Organizer]</a>
+      </h2>
+      <p><em><%= tags %></em></p>
       <div><a target="_blank" href="<%= original_url %>"><img src="<%= photo_url %>" /></a></div>
+      <form enctype="text/plain" method="post" action="mailto:thingsonbikelanes@yahoo.de?subject=Ich weiss wo&amp;body=Wat">
+        <input type="hidden" name="photo_id" value="<%= id %>">
+        <p><textarea id="address" cols="80" rows="2" name="address" placeholder="Musterstraße 17, Hamburg"></textarea></p>
+        <p><input type="submit" value="Ich weiss es!"></p>
+      </form>
     </li>
   </script>
 
