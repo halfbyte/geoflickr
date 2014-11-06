@@ -2,6 +2,11 @@ $(function() {
   $('.filterbutton').click(function() {
     $('#filterform').submit();
   })
+
+  $('.entries').on('click', 'li', function() {
+    location.hash=this.id;
+  });
+
   $('[data-uncoded-url]').each(function() {
     var match = location.search.match(/filter=(all|nogps|untagged)/);
     var filter = "all";

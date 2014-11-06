@@ -10,8 +10,10 @@
         list-style: none; margin: 0; padding: 0;
       }
       .entries li {
-        padding: 10px; border-bottom: 1px solid #ccc;
+        padding: 0; border-bottom: 1px solid #ccc;
       }
+
+      h1 { margin: 0 0 0.5em; padding: 0;}
     </style>
   </head>
   <!--
@@ -20,29 +22,30 @@
 
   -->
   <body>
-    <h1>things on bikelanes non coded images</h1>
-    <form action="uncoded.html" method="get" id="filterform">
-      Filter:
-      <label>
-        <input id="filter_all" type="radio" class="filterbutton" name="filter" value="all">
-        Alle
-      </label>
-      <label>
-        <input id="filter_untagged" type="radio" class="filterbutton" name="filter" value="untagged">
-        Noch nicht bearbeitet
-      </label>
-      <label>
-        <input id="filter_nogps" type="radio" class="filterbutton" name="filter" value="nogps">
-        Hoffnungslos
-      </label>
-    </form>
-    <p>
-      <span id="uncoded-count"></span>
-      ohne Gecode, davon
-      <span id="selected-count"></span>
-      ausgewählt.
-    </p>
-
+    <header class="header">
+      <h1>Things On Bikelanes Geocoding Tool</h1>
+      <form action="uncoded.html" method="get" id="filterform">
+        Filter:
+        <label>
+          <input id="filter_all" type="radio" class="filterbutton" name="filter" value="all">
+          Alle
+        </label>
+        <label>
+          <input id="filter_untagged" type="radio" class="filterbutton" name="filter" value="untagged">
+          Noch nicht bearbeitet
+        </label>
+        <label>
+          <input id="filter_nogps" type="radio" class="filterbutton" name="filter" value="nogps">
+          Hoffnungslos
+        </label>
+      </form>
+      <p>
+        <span id="uncoded-count"></span>
+        ohne Gecode, davon
+        <span id="selected-count"></span>
+        ausgewählt.
+      </p>
+    </header>
     <ul data-uncoded-url="122072174@N05.uncoded.json" class="entries">
 
     </ul>
@@ -54,13 +57,13 @@
   <script type="text/javascript" src="uncoded.js"></script>
 
   <script type="text/x-template" id="uncoded-entry">
-    <li>
+    <li id="entry_<%= id %>" class="entry">
       <h2>
-        <a target="_blank" href="<%= entry_url %>"><%= title %></a>
-        <a target="_blank" href="https://www.flickr.com/photos/organize/?batch_geotag=1&ids=<%= id %>&from_geo_ids=<%= id %>">[Geocode in Organizer]</a>
+        <a target="_blank" title="Öffnet Photo-Seite" href="<%= entry_url %>"><%= title %></a>
+        <a title="Öffnet Geocoder im Organizer" target="_blank" href="https://www.flickr.com/photos/organize/?batch_geotag=1&ids=<%= id %>&from_geo_ids=<%= id %>">[Geocode in Organizer]</a>
       </h2>
       <p><em><%= tags %></em></p>
-      <div><a target="_blank" href="<%= original_url %>"><img src="<%= photo_url %>" /></a></div>
+      <div><a title="Öffnet Bild in O-Größe" target="_blank" href="<%= original_url %>"><img src="<%= photo_url %>" /></a></div>
       <form enctype="text/plain" method="post" action="mailto:thingsonbikelanes@yahoo.de?subject=Ich weiss wo&amp;body=Wat">
         <input type="hidden" name="photo_id" value="<%= id %>">
         <p><textarea id="address" cols="80" rows="2" name="address" placeholder="Musterstraße 17, Hamburg"></textarea></p>
