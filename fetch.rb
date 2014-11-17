@@ -123,7 +123,7 @@ def fetch_all
             tagged += 1
           end
 
-          entryurl = "https://www.flickr.com/photos/#{FLICKR_USER}/#{photo['id']}"
+          entryurl = "https://www.flickr.com/photos/#{account['flickr_id']}/#{photo['id']}"
 
           if (lat && lon && lat != 0 && lon != 0)
             geocoded += 1
