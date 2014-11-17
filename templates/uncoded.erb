@@ -59,14 +59,13 @@
   <script type="text/x-template" id="uncoded-entry">
     <li id="entry_{{ id }}" class="entry">
       <h2>
-        <a target="_blank" title="Öffnet Photo-Seite" href="{{ entry_url }}"><%= title %></a>
+        <a target="_blank" title="Öffnet Photo-Seite" href="{{ entry_url }}">{{ title}}</a>
         <a title="Öffnet Geocoder im Organizer" target="_blank" href="https://www.flickr.com/photos/organize/?batch_geotag=1&ids={{ id }}&from_geo_ids={{ id }}">[Geocode in Organizer]</a>
       </h2>
       <p><em>{{ tags }}</em></p>
       <div><a title="Öffnet Bild in O-Größe" target="_blank" href="{{ original_url }}"><img src="{{ photo_url }}" /></a></div>
     </li>
   </script>
-
   </body>
 
 </html>

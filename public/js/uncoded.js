@@ -28,7 +28,10 @@ $(function() {
     } else {
       filter = "all";
     }
-    $('#filter_' + filter).get(0).checked = true;
+    if ($('#filter_' + filter).length > 0) {
+      $('#filter_' + filter).get(0).checked = true;
+    }
+
 
 
     var $list = $(this);

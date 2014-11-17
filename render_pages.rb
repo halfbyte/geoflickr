@@ -7,9 +7,9 @@ require 'fileutils'
 
 
 DEST = "public"
+TEMPLATES = %w(index stats uncoded help_us)
 
-
-Template = Struct.new(:title, :flickr_id, :mapbox_id) do
+Template = Struct.new(:title, :flickr_id, :mapbox_id, :email) do
   def build(file)
     b = binding
     return ERB.new(File.read(file)).result(b)
@@ -22,12 +22,12 @@ def render_all
 
   accounts.each do |account|
     puts account['title']
-    templates = %w(index stats uncoded)
 
-    templates.each do |template|
+
+    TEMPLATES.each do |template|
       dest_file = File.join(DEST, account['flickr_id'],"#{template}.html")
       template_file = File.join("templates", "#{template}.erb")
-      template = Template.new(account['title'], account['flickr_id'], account['mapbox_id'])
+      template = Template.new(account['title'], account['flickr_id'], account['mapbox_id'], account[:email])
       FileUtils.mkdir_p(File.dirname(dest_file))
       File.open(dest_file, 'wb') do |file|
         file.write(template.build(template_file))
