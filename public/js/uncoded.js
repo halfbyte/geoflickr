@@ -1,4 +1,10 @@
 $(function() {
+
+  _.templateSettings = {
+    interpolate: /\{\{(.+?)\}\}/g
+  };
+
+
   $('.filterbutton').click(function() {
     $('#filterform').submit();
   })

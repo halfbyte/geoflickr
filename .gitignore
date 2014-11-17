@@ -1,2 +1,4 @@
 *.geojson
 *.json
+public/
+public/**/*

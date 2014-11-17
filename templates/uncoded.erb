@@ -23,7 +23,7 @@
   -->
   <body>
     <header class="header">
-      <h1>Things On Bikelanes Geocoding Tool</h1>
+      <h1><%= title %> Geocoding Tool</h1>
       <form action="uncoded.html" method="get" id="filterform">
         Filter:
         <label>
@@ -46,7 +46,7 @@
         ausgewählt.
       </p>
     </header>
-    <ul data-uncoded-url="122072174@N05.uncoded.json" class="entries">
+    <ul data-uncoded-url="uncoded.json" class="entries">
 
     </ul>
 
@@ -54,21 +54,16 @@
 
   <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
-  <script type="text/javascript" src="uncoded.js"></script>
+  <script type="text/javascript" src="../js/uncoded.js"></script>
 
   <script type="text/x-template" id="uncoded-entry">
-    <li id="entry_<%= id %>" class="entry">
+    <li id="entry_{{ id }}" class="entry">
       <h2>
-        <a target="_blank" title="Öffnet Photo-Seite" href="<%= entry_url %>"><%= title %></a>
-        <a title="Öffnet Geocoder im Organizer" target="_blank" href="https://www.flickr.com/photos/organize/?batch_geotag=1&ids=<%= id %>&from_geo_ids=<%= id %>">[Geocode in Organizer]</a>
+        <a target="_blank" title="Öffnet Photo-Seite" href="{{ entry_url }}"><%= title %></a>
+        <a title="Öffnet Geocoder im Organizer" target="_blank" href="https://www.flickr.com/photos/organize/?batch_geotag=1&ids={{ id }}&from_geo_ids={{ id }}">[Geocode in Organizer]</a>
       </h2>
-      <p><em><%= tags %></em></p>
-      <div><a title="Öffnet Bild in O-Größe" target="_blank" href="<%= original_url %>"><img src="<%= photo_url %>" /></a></div>
-      <form enctype="text/plain" method="post" action="mailto:thingsonbikelanes@yahoo.de?subject=Ich weiss wo&amp;body=Wat">
-        <input type="hidden" name="photo_id" value="<%= id %>">
-        <p><textarea id="address" cols="80" rows="2" name="address" placeholder="Musterstraße 17, Hamburg"></textarea></p>
-        <p><input type="submit" value="Ich weiss es!"></p>
-      </form>
+      <p><em>{{ tags }}</em></p>
+      <div><a title="Öffnet Bild in O-Größe" target="_blank" href="{{ original_url }}"><img src="{{ photo_url }}" /></a></div>
     </li>
   </script>
 

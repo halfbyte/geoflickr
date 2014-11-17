@@ -1,19 +1,18 @@
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.css' rel='stylesheet' />
     <style>
     body {
       margin: 0; padding:10px; font-family: sans-serif;
     }
-    
+
     .stats-summary > div {
       position: relative;
       height: 30px;
       margin: 10px 0 0;
     }
-    
+
     .tag-stats {
       list-style-type: none;
       margin: 0; padding: 0;
@@ -34,12 +33,12 @@
       position: absolute;
       height: 30px;
       box-sizing: border-box;
-      
+
     }
     .stats-bar {
       z-index: -1;
       background-color: hsl(0, 70%, 70%);
-      
+
     }
     .tag-name {
       font-size: 2em;
@@ -54,15 +53,16 @@
       right: 0;
       font-size: 1.5em;
     }
-    </style>    
+    </style>
+    <title><%= title %> Statistiken</title>
   </head>
-  <!-- 
+  <!--
     To run this example, as it needs ajax to load and this does not normally work from files,
     it needs to run in a webserver.
-    
+
   -->
   <body>
-    <h1>things on bikelanes Statistiken</h1>
+    <h1><%= title %> Statistiken</h1>
     <div class>
     <h2>Zusammenfassung</h2>
     <div class="stats-summary">
@@ -72,24 +72,24 @@
     </div>
     <h2>Häufigste Tags</h2>
     <p>Da Einträge mehrfach getagt sein können, müssen die Summen nicht mit der Gesamtsumme der getagten Einträge übereinstimmen.</p>
-    <ul class="tag-stats" data-stats-url="122072174@N05.stats.json"></ul>
-    
+    <ul class="tag-stats" data-stats-url="stats.json"></ul>
+
     <h2>Erklärung</h2>
     <p>
       Die Einträge auf <a href="http://thingsonbikelanes.tumblr.com">Thingsonbikelanes</a>
       werde über Flickr durchsuchbar gemacht und mit einer händischen Klassifizierung versehen. Diese richtet sich nach den häufigsten Hindernissen. Diese Seite bietet einen Überblick über die erfassten Daten.
     </p>
   </body>
-  <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>  
+  <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
-  <script type="text/javascript" src="stats.js"></script>
-  
+  <script type="text/javascript" src="../js/stats.js"></script>
+
   <script type="text/x-template" id="stat-entry">
     <li class="tag-stats-entry">
-      <div class="tag-stats-bar" id="tag-<%= tag %>" style="background-color: hsl(<%= hue %>, 70%, 70%);" class="tag-stats-bar"></div>
-      <div class="tag-name"><%= tag %></div>
-      <div class="tag-count"><%= count %></div>
+      <div class="tag-stats-bar" id="tag-{{ tag }}" style="background-color: hsl({{ hue }}, 70%, 70%);" class="tag-stats-bar"></div>
+      <div class="tag-name">{{ tag }}</div>
+      <div class="tag-count">{{ count }}</div>
     </li>
   </script>
-  
+
 </html>
