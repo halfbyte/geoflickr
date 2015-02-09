@@ -1,7 +1,7 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.css' rel='stylesheet' />
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
     <style>
     body {margin: 0; padding:0;} h1 { margin: 0; padding: 0; font-family: sans-serif; line-height: 0.7em; z-index: 10}
     #floater {
@@ -27,9 +27,10 @@
       | <a href="/index.html">Infos</a>
     </div>
 
-    <div data-geojson="map.geojson" id="map" style="height: 100%" data-mapbox-id="<%= mapbox_id %>"></div>
+    <div data-geojson="map.geojson" id="map" style="height: 100%" data-mapbox-id="<%= mapbox_id %>" data-mapbox-access-token="<%= mapbox_api_token %>"></div>
     <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
-    <script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.js'></script>
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
+    <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-heat/v0.1.0/leaflet-heat.js'></script>
     <script src="../js/geojson.js"></script>
 
 
