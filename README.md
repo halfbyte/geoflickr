@@ -22,7 +22,7 @@ The Flickr-API key needs to be set as an Environment Variable during the run, fo
 
 ## Serving
 
-The
+The public folder can be served via any web server. It probably only works when deployed to a root (without prepending sub paths). Also, you probably want to configure the webserver to serve geojson files with the correct mime type ()
 
 ## License
 
