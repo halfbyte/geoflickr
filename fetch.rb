@@ -136,7 +136,10 @@ def fetch_all
                 description: "<div>#{date_taken ? date_taken.strftime("%d.%m.%Y %H:%M") : ''}</div><p><a target='_blank' href='#{entryurl}'><img src='#{photo['url_m']}' style='width: 100%;'/></a></p><p>#{photo['title']}</p><p class='source'>Quelle: Flickr</p>",
                 "marker-size" => "medium",
                 "marker-symbol" => tags_to_symbol(photo['tags'].split(" ")),
-                "marker-color" => age_to_color(age)
+                "marker-color" => age_to_color(age),
+                "photo-url" => photo['url_m'],
+                "created-at" => date_taken ? date_taken.strftime("%Y-%m-%d %H:%M:%S") : ''
+
               },
               geometry: {
                 type: 'Point',
